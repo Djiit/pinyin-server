@@ -1,13 +1,8 @@
-const Koa = require("koa");
-const bodyParser = require("koa-bodyparser");
-
+const io = require("socket.io")(3000);
 const getCandidates = require("./pinyin/ime_engine.js");
 
-const app = new Koa();
-
-app.use(bodyParser());
-app.use(async (ctx) => {
-  ctx.body = getCandidates(ctx.request.body.input);
+io.on("connection", (client) => {
+  client.on("input", (data) => {
+    client.emit("output", getCandidates(data));
+  });
 });
-
-app.listen(3000);
