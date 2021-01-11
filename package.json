@@ -1,13 +1,16 @@
 {
   "scripts": {
+    "build": "pkg src/server.js --out-path out",
     "start": "node src/server.js"
   },
   "dependencies": {
     "dawg-lookup": "2.2.1",
     "lodash": "4.17.20",
-    "socket.io": "^2.4.0"
+    "socket.io": "2.4.0"
   },
   "devDependencies": {
-    "socket.io-client": "^2.4.0"
+    "@vercel/ncc": "0.26.2",
+    "pkg": "4.4.9",
+    "socket.io-client": "2.4.0"
   }
 }
