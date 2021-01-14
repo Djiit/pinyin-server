@@ -8,7 +8,8 @@
     "koa": "^2.13.1",
     "koa-bodyparser": "^4.3.0",
     "lodash": "4.17.20",
-    "socket.io": "2.4.0"
+    "socket.io": "2.4.0",
+    "ws": "^7.4.2"
   },
   "devDependencies": {
     "@vercel/ncc": "0.26.2",
