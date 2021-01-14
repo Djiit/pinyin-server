@@ -13,5 +13,5 @@ socket.on("disconnect", () => {
 socket.on("output", console.log);
 
 setInterval(() => {
-  socket.emit("input", "ni");
+  socket.emit("input-raw", "ni");
 }, 2000);

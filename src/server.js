@@ -15,6 +15,14 @@ io.on("connection", (client) => {
     console.log(`Received ${data}`);
     client.emit("output", getCandidates(data));
   });
+
+  client.on("input-raw", (data) => {
+    console.log(`Received ${data}`);
+    client.emit(
+      "output",
+      getCandidates(data).map((e) => Buffer.from(e))
+    );
+  });
 });
 
 app.use(bodyParser());
