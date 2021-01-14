@@ -1,7 +1,12 @@
 console.log("Starting server...");
 
-const io = require("socket.io")(3000);
+const Koa = require("koa");
+const bodyParser = require("koa-bodyparser");
 const getCandidates = require("./pinyin/ime_engine.js");
+
+const app = new Koa();
+var server = require("http").createServer(app.callback());
+const io = require("socket.io")(server);
 
 console.log("Server listening on :3000");
 
@@ -11,3 +16,10 @@ io.on("connection", (client) => {
     client.emit("output", getCandidates(data));
   });
 });
+
+app.use(bodyParser());
+app.use(async (ctx) => {
+  ctx.body = getCandidates(ctx.request.body.input);
+});
+
+server.listen(3000);

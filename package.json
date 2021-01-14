@@ -5,6 +5,8 @@
   },
   "dependencies": {
     "dawg-lookup": "2.2.1",
+    "koa": "^2.13.1",
+    "koa-bodyparser": "^4.3.0",
     "lodash": "4.17.20",
     "socket.io": "2.4.0"
   },
