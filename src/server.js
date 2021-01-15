@@ -1,17 +1,21 @@
-console.log("Starting server...");
-
+const { createServer } = require("http");
 const Koa = require("koa");
 const Router = require("@koa/router");
 const bodyParser = require("koa-bodyparser");
-const logger = require("pino")({
+const pino = require("pino");
+const socketio = require("socket.io");
+
+const getCandidates = require("./pinyin/ime_engine.js");
+
+const logger = pino({
   prettyPrint: {
     levelFirst: true,
   },
 });
 
-const getCandidates = require("./pinyin/ime_engine.js");
+logger.info("Starting server...");
 
-// Koa init
+// HTTP init
 const app = new Koa();
 const router = new Router();
 
@@ -33,23 +37,15 @@ app.use(async (ctx) => {
 });
 
 // Socket-IO init
-var server = require("http").createServer(app.callback());
-const io = require("socket.io")(server);
+var server = createServer(app.callback());
+const io = socketio(server);
 
 logger.info("Server listening on :3000");
 
 io.on("connection", (client) => {
   client.on("input", (data) => {
-    logger.info(`Received ${data}`);
+    logger.info(`Received: ${data}`);
     client.emit("output", getCandidates(data));
-  });
-
-  client.on("input-raw", (data) => {
-    logger.info(`Received ${data}`);
-    client.emit(
-      "output",
-      getCandidates(data).map((e) => Buffer.from(e, "utf-8"))
-    );
   });
 });
 
